@@ -4,6 +4,7 @@ public class HuffmanLinkedList<E>{
 	
 	HuffmanNode<E> head = null;
 	HuffmanNode<E> tail = null;
+
 	int size = 0;
 
 	public HuffmanLinkedList() {
@@ -32,8 +33,7 @@ public class HuffmanLinkedList<E>{
     { 
         HuffmanNode<E> node = head; 
         while (node != null) { 
-            System.out.print(node.getLetter() + " " + node.getAscii() + " " + node.getOccurence() + " " + node.getFrequency() + " " + node.getOrderedFrequency() + " " + node.getHuffmanCode());
-            System.out.println();
+            System.out.println(node.getLetter() + "\t" + node.getAscii() + "\t" + node.getOccurence() + "\t" + node.getFrequency() + "\t" + node.getOrderedFrequency() + "\t" + node.getHuffmanCode());
             node = node.next; 
         } 
     }

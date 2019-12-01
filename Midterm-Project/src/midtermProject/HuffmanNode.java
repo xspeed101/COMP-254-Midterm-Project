@@ -7,8 +7,9 @@ public class HuffmanNode<E> {
 	private String frequency;
 	private String orderedFrequency;
 	private String huffmanCode;
+	E elememnt;
 	HuffmanNode<E> next;
-	
+
 	public HuffmanNode() {
 		
 	}
@@ -50,7 +51,11 @@ public class HuffmanNode<E> {
 	public HuffmanNode<E> getNext() {		
 		return next;
 	}
-	
+
+	public void setHuffmanCode(String huffmanCode) {
+		this.huffmanCode = huffmanCode;
+	}
+
 	public void setNext(HuffmanNode<E> n) {
 		next = n;
 	}

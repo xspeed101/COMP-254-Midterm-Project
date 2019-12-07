@@ -11,16 +11,12 @@ import java.util.stream.Stream;
 
 public class Main {
 
-	public static String readFile(String filePath)
-	{
+	public static String readFile(String filePath) {
 		StringBuilder contentBuilder = new StringBuilder();
 
-		try (Stream<String> stream = Files.lines( Paths.get(filePath), StandardCharsets.UTF_8))
-		{
+		try (Stream<String> stream = Files.lines(Paths.get(filePath), StandardCharsets.UTF_8)) {
 			stream.forEach(s -> contentBuilder.append(s).append("\n"));
-		}
-		catch (IOException e)
-		{
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
@@ -33,64 +29,71 @@ public class Main {
 			if (head.getLetter().equals(elementToSearch.toString()))
 				return head.getHuffmanCode();
 
-			head=head.getNext();
+			head = head.getNext();
 		}
 		return "100";
 	}
+
 	public static String linearSearchLinkedListletter(HuffmanLinkedList list, String elementToSearch) {
 		HuffmanNode head = list.head;
 		for (int index = 0; index < list.size(); index++) {
 			if (head.getHuffmanCode().equals(elementToSearch.toString()))
 				return head.getLetter();
 
-			head=head.getNext();
+			head = head.getNext();
 		}
 		return "";
 	}
-	public static void printArray(int [] arr){
-		for(int l : arr){
+
+	public static void printArray(int[] arr) {
+		for (int l : arr) {
 			System.out.println(l);
 		}
 		System.out.println();
 	}
-	public static void printArray(double [] arr){
-		for(double l : arr){
+
+	public static void printArray(double[] arr) {
+		for (double l : arr) {
 			System.out.println(l);
 		}
 		System.out.println();
 	}
-	public static void printArray(char [] arr) {
-		for(char l : arr) {
+
+	public static void printArray(char[] arr) {
+		for (char l : arr) {
 			System.out.print(l);
 		}
 		System.out.println();
 		System.out.println();
 	}
-	public static void printArray(String [] arr) {
-		for(String l : arr) {
+
+	public static void printArray(String[] arr) {
+		for (String l : arr) {
 			System.out.println(l);
 		}
 
 		System.out.println();
 	}
 
-	public static double[] frequencyArrayGen(int [] array, int total){
-		double arr [] = new double[array.length];
-		for(int i=0;i<array.length; i++){
-			double f = (double)array[i]/(double) total;
-			arr[i] = Math.round(f*100.0)/100.0;
+	public static double[] frequencyArrayGen(int[] array, int total) {
+		double arr[] = new double[array.length];
+		for (int i = 0; i < array.length; i++) {
+			double f = (double) array[i] / (double) total;
+			arr[i] = Math.round(f * 100.0) / 100.0;
 		}
 		return arr;
 
 	}
-	public static int sumArray(int [] arr){
+
+	public static int sumArray(int[] arr) {
 		int sum = 0;
-		for(int l : arr){
-			sum +=l;
+		for (int l : arr) {
+			sum += l;
 		}
 		return sum;
 	}
-	public static int linearSearch(char [] arr, char elementToSearch) {
+
+	public static int linearSearch(char[] arr, char elementToSearch) {
 
 		for (int index = 0; index < arr.length; index++) {
 			if (arr[index] == elementToSearch)
@@ -98,39 +101,60 @@ public class Main {
 		}
 		return -1;
 	}
-	public static double CompressionRate(long initial, long current){
-		return 100.00 - (((double) current/(double)initial)*100.00);
+
+	public static double CompressionRate(long initial, long current) {
+		return 100.00 - (((double) current / (double) initial) * 100.00);
+	}
+
+	public static void progress(int level) {
+		Scanner input = new Scanner(System.in);
+		boolean loop = true;
+		while (loop == true) {
+			System.out.println("Would you like to continue to level " + level + "? Y/N");
+			String proceed = input.next();
+			if (proceed.equals("N") || proceed.equals("n")) {
+				loop = false;
+				System.exit(0);
+			} else if (proceed.equals("Y") || proceed.equals("y")) {
+				loop = false;
+				System.out.println("Proceeding to level " + level + " processing");
+			} else {
+				System.out.println("Invalid input");
+			}
+		}
 	}
 
 	public static void main(String[] args) {
 		/////////////////////////////////////////////////////////////////////////////////////////////
 		//                                                                                         //
-		//------------------------------Level 1----------------------------------------------------//
-		//                                                                                         //
+		//------------------------------Level 1----------------------------------------------------// 
 		//                                                                                         //
 		/////////////////////////////////////////////////////////////////////////////////////////////
 		char[] letters = "abcdefghijklmnopqrstuvwxyz ".toCharArray();
-		int[] ascii = new int [27];
-		boolean loop = true;
-		for(int i=0;i<letters.length; i++){
+		int[] ascii = new int[27];
 
-			ascii[i] = (int)(letters[i]);
+		for (int i = 0; i < letters.length; i++) {
+
+			ascii[i] = (int) (letters[i]);
 		}
-		int [] occurence = new int[letters.length];
-
+		int[] occurence = new int[letters.length];
+		
+		//IronHeel.txt is iterated over and the number of times each character shows up is recorded to the occurrence array
 		FileReader fr = null;
 		try {
-			fr = new FileReader("Midterm-Project\\src\\midtermProject\\IronHeel.txt");
+			fr = new FileReader("src/midtermProject/IronHeel.txt");
 			int i;
-			int index =-1;
-			while ((i=fr.read()) != -1) {
-				if(i < 32 || i > 122) continue;
-				if(i >= 65 && i<= 90 ) i +=32;
+			int index = -1;
+			while ((i = fr.read()) != -1) {
+				if (i < 32 || i > 122)
+					continue;
+				if (i >= 65 && i <= 90)
+					i += 32;
 				index = linearSearch(letters, (char) i);
-				if(index == -1) {
+				if (index == -1) {
 
-					occurence[letters.length-1] += 1;
-				}else{
+					occurence[letters.length - 1] += 1;
+				} else {
 					occurence[index] += 1;
 				}
 			}
@@ -139,11 +163,12 @@ public class Main {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		double [] frequency = frequencyArrayGen(occurence, sumArray(occurence));
 
-		double [] orderedFrequency = frequencyArrayGen(occurence, sumArray(occurence));
+		double[] frequency = frequencyArrayGen(occurence, sumArray(occurence));
+		double[] orderedFrequency = frequencyArrayGen(occurence, sumArray(occurence));
 		Arrays.sort(orderedFrequency);
-
+		
+		//all of the arrays get their contents printed out here
 		System.out.println("Displaying letter array");
 		printArray(letters);
 		System.out.println("Displaying ascii array");
@@ -155,203 +180,179 @@ public class Main {
 		System.out.println("Displaying ordered frequency array");
 		printArray(orderedFrequency);
 
-		Scanner input = new Scanner(System.in);
-		
-		while (loop == true) {			
-			System.out.println("Would you like to continue to level 2? Y/N");			
-			String proceed = input.next();
-			if (proceed.equals("N") || proceed.equals("n")) {
-				loop = false;
-				System.exit(0);
-			} else if (proceed.equals("Y") || proceed.equals("y")) {
-				loop = false;
-				System.out.println("Proceeding to level 2 processing");
-			} else {
-				System.out.println("Invalid input");
-				loop = true;
-			}
-		}
-		loop = true;
+		//method to progress to the next level or exit the application
+		progress(2);
+
 		/////////////////////////////////////////////////////////////////////////////////////////////
 		//                                                                                         //
-		//------------------------------Level 2----------------------------------------------------//
-		//                                                                                         //
+		//------------------------------Level 2----------------------------------------------------// 
 		//                                                                                         //
 		/////////////////////////////////////////////////////////////////////////////////////////////
+
 		String empty = "";
+		
+		//create the linked list and add the first node
 		HuffmanLinkedList list = new HuffmanLinkedList();
-		list.addFirst(String.valueOf(letters[0]), String.valueOf(ascii[0]), String.valueOf(occurence[0]), String.valueOf(frequency[0]), String.valueOf(frequency[0]), empty);
-		
-		for(int i = 1; i < letters.length; i++) {
-			list.addLast(String.valueOf(letters[i]), String.valueOf(ascii[i]), String.valueOf(occurence[i]), String.valueOf(frequency[i]), String.valueOf(frequency[i]), empty);
+		list.addFirst(String.valueOf(letters[0]), String.valueOf(ascii[0]), String.valueOf(occurence[0]),
+				String.valueOf(frequency[0]), String.valueOf(frequency[0]), empty);
+
+		//add the remaining nodes to the linked list
+		for (int i = 1; i < letters.length; i++) {
+			list.addLast(String.valueOf(letters[i]), String.valueOf(ascii[i]), String.valueOf(occurence[i]),
+					String.valueOf(frequency[i]), String.valueOf(frequency[i]), empty);
 		}
 		
+		//print the list
 		list.printList();
-		
-		while (loop == true) {			
-			System.out.println("Would you like to continue to level 3? Y/N");
-			String proceed = input.next();
-			if (proceed.equals("N") || proceed.equals("n")) {
-				loop = false;
-				System.exit(0);
-			} else if (proceed.equals("Y") || proceed.equals("y")) {
-				loop = false;
-				System.out.println("Proceeding to level 3 processing");
-			} else {
-				System.out.println("Invalid input");
-				loop = true;
-			}
-		}
-		loop = true;
+
+		progress(3);
+
 		/////////////////////////////////////////////////////////////////////////////////////////////
 		//                                                                                         //
-		//------------------------------Level 3----------------------------------------------------//
-		//                                                                                         //
+		//------------------------------Level 3----------------------------------------------------// 
 		//                                                                                         //
 		/////////////////////////////////////////////////////////////////////////////////////////////
 
 		// Hashmap to map frequencies to letters
 		Map<Character, Double> map = new HashMap<>();
-		//populate hash map with letters and frequencies
-		for(int i=0; i<letters.length; i++){
+
+		// populate hash map with letters and frequencies
+		for (int i = 0; i < letters.length; i++) {
 			map.put(letters[i], frequency[i]);
 		}
+
 		Comparator<Entry<Character, Double>> valueComparator = (e1, e2) -> {
 			Double v1 = e1.getValue();
 			Double v2 = e2.getValue();
 			return v1.compareTo(v2);
 		};
-		//create set with map entries
+
+		// create set with map entries
 		Set<Entry<Character, Double>> entries = map.entrySet();
-		//Convert set entries to an array list
+
+		// Convert set entries to an array list
 		List<Entry<Character, Double>> listOfEntries = new ArrayList<>(entries);
+
 		// sorting HashMap by values using comparator
 		Collections.sort(listOfEntries, valueComparator);
 		LinkedHashMap<Character, Double> sortedByValue = new LinkedHashMap<>(listOfEntries.size());
+
 		// copying entries from List to Map
-		for(Entry<Character, Double> entry : listOfEntries){
+		for (Entry<Character, Double> entry : listOfEntries) {
 			sortedByValue.put(entry.getKey(), entry.getValue());
 		}
 		Set<Entry<Character, Double>> entrySetSortedByValue = sortedByValue.entrySet();
-		//defining predefined list of huffmancodes
-		String [] code = new String[]{"100","0010","0011","1111","1110","1100","1011","1010","0110","0101","11011","01111","01001","01000","00011","00010","00001","00000","110101","011101","011100","1101001","110100011","110100001","110100000","1101000101","11010001000"};
+
+		// defining predefined list of huffman codes
+		String[] code = new String[] { "100", "0010", "0011", "1111", "1110", "1100", "1011", "1010", "0110", "0101",
+				"11011", "01111", "01001", "01000", "00011", "00010", "00001", "00000", "110101", "011101", "011100",
+				"1101001", "110100011", "110100001", "110100000", "1101000101", "11010001000" };
+
 		Map encode = new HashMap();
 		int k = 26;
-		//map each letter to Huffmancode according to their frequencies
-		for(Entry<Character, Double> mapping : entrySetSortedByValue){
+
+		// map each letter to Huffmancode according to their frequencies
+		for (Entry<Character, Double> mapping : entrySetSortedByValue) {
 			encode.put(mapping.getKey(), code[k]);
 			k--;
 		}
+
 		String[] huffcode = new String[letters.length];
-		//insert huffman code in new array match index of each letter in letters array.
-		for(int j= 0; j<letters.length;j++){
+
+		// insert huffman code in new array match index of each letter in letters array.
+		for (int j = 0; j < letters.length; j++) {
 			huffcode[j] = (String) encode.get(letters[j]);
 		}
 
-		//Loop through each node in the Huffmanlinked list and add huffman code for each node
+		// Loop through each node in the Huffmanlinked list and add huffman code for
+		// each node
 		HuffmanNode head = list.head;
-		for(int z=0;z<list.size(); z++){
-			if(head.getNext() != null){
+		for (int z = 0; z < list.size(); z++) {
+			if (head.getNext() != null) {
 				head.setHuffmanCode(huffcode[z]);
-			}
-			else{
+			} else {
 				head.setHuffmanCode(huffcode[z]);
 			}
 			head = head.next;
 		}
 		list.printList();
-		loop = true;
 
-		while (loop) {
-			System.out.println("Would you like to continue to level 4? Y/N");
-			String proceed = input.next();
-			if (proceed.equals("N") || proceed.equals("n")) {
-				loop = false;
-				System.exit(0);
-			} else if (proceed.equals("Y") || proceed.equals("y")) {
-				loop = false;
-				System.out.println("Proceeding to level 4 processing");
-			} else {
-				System.out.println("Invalid input");
-				loop = true;
-			}
-		}
+		progress(4);
+
+		/////////////////////////////////////////////////////////////////////////////////////////////
+		//                                                                                         //
+		//------------------------------Level 4----------------------------------------------------// 
+		//                                                                                         //
+		/////////////////////////////////////////////////////////////////////////////////////////////
 
 		FileReader fr1 = null;
 		try {
-			fr1 = new FileReader("Midterm-Project\\src\\midtermProject\\IronHeel.txt");
+			fr1 = new FileReader("src/midtermProject/IronHeel.txt");
 			int i;
-			String hc ="";
+			String hc = "";
 			System.out.println("Encoding file...");
-			while ((i=fr1.read()) != -1) {
-				if(i < 32 || i > 122) continue;
-				if(i >= 65 && i<= 90 ) i +=32;
+			while ((i = fr1.read()) != -1) {
+				if (i < 32 || i > 122)
+					continue;
+				if (i >= 65 && i <= 90)
+					i += 32;
 				hc += linearSearchLinkedList(list, (char) i);
 
 			}
 
-			FileWriter fileWriter = new FileWriter("Midterm-Project/src/IronHeelCoded.txt");
+			//create a file writer to write the coded words to a new txt file
+			FileWriter fileWriter = new FileWriter("src/IronHeelCoded.txt");
 			PrintWriter printWriter = new PrintWriter(fileWriter);
 			printWriter.print(hc);
 			printWriter.close();
 			System.out.println("Done!!!");
-			System.out.println("Initial Size: "+sumArray(occurence)*8);
-			System.out.println("Current Size: "+ hc.toCharArray().length);
-			System.out.println("Compression Rate: "+ CompressionRate((sumArray(occurence)*8),hc.toCharArray().length ));
+			System.out.println("Initial Size: " + sumArray(occurence) * 8);
+			System.out.println("Current Size: " + hc.toCharArray().length);
+			System.out.println(
+					"Compression Rate: " + CompressionRate((sumArray(occurence) * 8), hc.toCharArray().length));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
-		loop = true;
+		progress(5);
+		
+		/////////////////////////////////////////////////////////////////////////////////////////////
+		//                                                                                         //
+		//------------------------------Level 5----------------------------------------------------// 
+		//                                                                                         //
+		/////////////////////////////////////////////////////////////////////////////////////////////
 
-		while (loop) {
-			System.out.println("Would you like to continue to level 5? Y/N");
-			String proceed = input.next();
-			if (proceed.equals("N") || proceed.equals("n")) {
-				loop = false;
-				input.close();
-				System.exit(0);
-			} else if (proceed.equals("Y") || proceed.equals("y")) {
-				loop = false;
-				input.close();
-				System.out.println("Proceeding to level 5 processing");
-			} else {
-				System.out.println("Invalid input");
-				loop = true;
-			}
+		String Content = readFile("src/IronHeelCoded.txt");
 
-			String Content  = readFile("Midterm-Project/src/IronHeelCoded.txt");
+		char[] codedtext = Content.toCharArray();
+		String combination = "";
+		String text = "";
+		
+		//the following sequence decrypts IronHeelCoded.txt and writes the results to a new txt file
+		System.out.println("Writing to IronHeelDecrypted...");
 
-			char [] codedtext = Content.toCharArray();
-			String combination = "";
-			String text = "";
-			System.out.println("Writing to IronHeelDecrypted...");
-			for(Character c : codedtext){
-				combination+= c.toString();
-				System.out.println(combination);if(combination.toCharArray().length >= 3){
-
-					String l = linearSearchLinkedListletter(list,combination);
-					if(l.equals("")){
-						continue;
-					}else {
-						text+=l;
-						combination ="";
-					}
+		for (Character c : codedtext) {
+			combination += c.toString();
+			System.out.println(combination);
+			if (combination.toCharArray().length >= 3) {
+				String l = linearSearchLinkedListletter(list, combination);
+				if (l.equals("")) {
+					continue;
+				} else {
+					text += l;
+					combination = "";
 				}
-
 			}
-			try {
-				FileWriter fileWriter = new FileWriter("Midterm-Project/src/ironHeelDecrypted..txt");
-				PrintWriter printWriter = new PrintWriter(fileWriter);
-				printWriter.print(text.toUpperCase());
-				System.out.println("Done!!");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-
-
+		}
+		try {
+			FileWriter fileWriter = new FileWriter("src/IronHeelDecrypted.txt");
+			PrintWriter printWriter = new PrintWriter(fileWriter);
+			printWriter.print(text.toUpperCase());
+			System.out.println("Done!!");
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 }

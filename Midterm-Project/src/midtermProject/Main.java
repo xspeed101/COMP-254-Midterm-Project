@@ -1,12 +1,52 @@
 
 package midtermProject;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.Map.*;
+import java.util.stream.Stream;
+
 public class Main {
+
+	public static String readFile(String filePath)
+	{
+		StringBuilder contentBuilder = new StringBuilder();
+
+		try (Stream<String> stream = Files.lines( Paths.get(filePath), StandardCharsets.UTF_8))
+		{
+			stream.forEach(s -> contentBuilder.append(s).append("\n"));
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+
+		return contentBuilder.toString();
+	}
+
+	public static String linearSearchLinkedList(HuffmanLinkedList list, Character elementToSearch) {
+		HuffmanNode head = list.head;
+		for (int index = 0; index < list.size(); index++) {
+			if (head.getLetter().equals(elementToSearch.toString()))
+				return head.getHuffmanCode();
+
+			head=head.getNext();
+		}
+		return "100";
+	}
+	public static String linearSearchLinkedListletter(HuffmanLinkedList list, String elementToSearch) {
+		HuffmanNode head = list.head;
+		for (int index = 0; index < list.size(); index++) {
+			if (head.getHuffmanCode().equals(elementToSearch.toString()))
+				return head.getLetter();
+
+			head=head.getNext();
+		}
+		return "";
+	}
 	public static void printArray(int [] arr){
 		for(int l : arr){
 			System.out.println(l);
@@ -58,6 +98,9 @@ public class Main {
 		}
 		return -1;
 	}
+	public static double CompressionRate(long initial, long current){
+		return 100.00 - (((double) current/(double)initial)*100.00);
+	}
 
 	public static void main(String[] args) {
 		/////////////////////////////////////////////////////////////////////////////////////////////
@@ -77,11 +120,12 @@ public class Main {
 
 		FileReader fr = null;
 		try {
-			fr = new FileReader("C:\\Users\\Kenyi\\Documents\\COMP-254-Midterm-Project\\Midterm-Project\\src\\midtermProject\\IronHeel.txt");
+			fr = new FileReader("Midterm-Project\\src\\midtermProject\\IronHeel.txt");
 			int i;
 			int index =-1;
 			while ((i=fr.read()) != -1) {
 				if(i < 32 || i > 122) continue;
+				if(i >= 65 && i<= 90 ) i +=32;
 				index = linearSearch(letters, (char) i);
 				if(index == -1) {
 
@@ -149,11 +193,9 @@ public class Main {
 			String proceed = input.next();
 			if (proceed.equals("N") || proceed.equals("n")) {
 				loop = false;
-				input.close();
 				System.exit(0);
 			} else if (proceed.equals("Y") || proceed.equals("y")) {
 				loop = false;
-				input.close();
 				System.out.println("Proceeding to level 3 processing");
 			} else {
 				System.out.println("Invalid input");
@@ -192,7 +234,7 @@ public class Main {
 		}
 		Set<Entry<Character, Double>> entrySetSortedByValue = sortedByValue.entrySet();
 		//defining predefined list of huffmancodes
-		String [] code = new String[]{"100","001","001","111","111","110","101","101","011","010","11011","01111","01001","01000","00011","00010","00001","00000","110101","011101","011100","1101001","110100011","110100001","110100000","1101000101","11010001000"};
+		String [] code = new String[]{"100","0010","0011","1111","1110","1100","1011","1010","0110","0101","11011","01111","01001","01000","00011","00010","00001","00000","110101","011101","011100","1101001","110100011","110100001","110100000","1101000101","11010001000"};
 		Map encode = new HashMap();
 		int k = 26;
 		//map each letter to Huffmancode according to their frequencies
@@ -218,5 +260,98 @@ public class Main {
 			head = head.next;
 		}
 		list.printList();
+		loop = true;
+
+		while (loop) {
+			System.out.println("Would you like to continue to level 4? Y/N");
+			String proceed = input.next();
+			if (proceed.equals("N") || proceed.equals("n")) {
+				loop = false;
+				System.exit(0);
+			} else if (proceed.equals("Y") || proceed.equals("y")) {
+				loop = false;
+				System.out.println("Proceeding to level 4 processing");
+			} else {
+				System.out.println("Invalid input");
+				loop = true;
+			}
+		}
+
+		FileReader fr1 = null;
+		try {
+			fr1 = new FileReader("Midterm-Project\\src\\midtermProject\\IronHeel.txt");
+			int i;
+			String hc ="";
+			System.out.println("Encoding file...");
+			while ((i=fr1.read()) != -1) {
+				if(i < 32 || i > 122) continue;
+				if(i >= 65 && i<= 90 ) i +=32;
+				hc += linearSearchLinkedList(list, (char) i);
+
+			}
+
+			FileWriter fileWriter = new FileWriter("Midterm-Project/src/IronHeelCoded.txt");
+			PrintWriter printWriter = new PrintWriter(fileWriter);
+			printWriter.print(hc);
+			printWriter.close();
+			System.out.println("Done!!!");
+			System.out.println("Initial Size: "+sumArray(occurence)*8);
+			System.out.println("Current Size: "+ hc.toCharArray().length);
+			System.out.println("Compression Rate: "+ CompressionRate((sumArray(occurence)*8),hc.toCharArray().length ));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		loop = true;
+
+		while (loop) {
+			System.out.println("Would you like to continue to level 5? Y/N");
+			String proceed = input.next();
+			if (proceed.equals("N") || proceed.equals("n")) {
+				loop = false;
+				input.close();
+				System.exit(0);
+			} else if (proceed.equals("Y") || proceed.equals("y")) {
+				loop = false;
+				input.close();
+				System.out.println("Proceeding to level 5 processing");
+			} else {
+				System.out.println("Invalid input");
+				loop = true;
+			}
+
+			String Content  = readFile("Midterm-Project/src/IronHeelCoded.txt");
+
+			char [] codedtext = Content.toCharArray();
+			String combination = "";
+			String text = "";
+			System.out.println("Writing to IronHeelDecrypted...");
+			for(Character c : codedtext){
+				combination+= c.toString();
+				System.out.println(combination);if(combination.toCharArray().length >= 3){
+
+					String l = linearSearchLinkedListletter(list,combination);
+					if(l.equals("")){
+						continue;
+					}else {
+						text+=l;
+						combination ="";
+					}
+				}
+
+			}
+			try {
+				FileWriter fileWriter = new FileWriter("Midterm-Project/src/ironHeelDecrypted..txt");
+				PrintWriter printWriter = new PrintWriter(fileWriter);
+				printWriter.print(text.toUpperCase());
+				System.out.println("Done!!");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+
+		}
 	}
 }
